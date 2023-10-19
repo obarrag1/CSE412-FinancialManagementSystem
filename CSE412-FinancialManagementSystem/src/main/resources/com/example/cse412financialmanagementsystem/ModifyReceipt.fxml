@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cse412financialmanagementsystem.ModifyReceiptController">
+   <children>
+      <AnchorPane prefHeight="500.0" prefWidth="700.0">
+         <children>
+            <Label layoutX="26.0" layoutY="17.0" text="CSE412 Group 2 - Financial Management System">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="26.0" layoutY="50.0" text="Receipt Information">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <SplitPane layoutX="25.0" layoutY="95.0" orientation="VERTICAL" prefHeight="380.0" prefWidth="650.0">
+               <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                     <children>
+                        <TextField layoutX="11.0" layoutY="40.0" prefHeight="26.0" prefWidth="255.0" />
+                        <TextField layoutX="11.0" layoutY="125.0" />
+                        <TextField layoutX="350.0" layoutY="40.0" prefHeight="26.0" prefWidth="255.0" />
+                        <TextField layoutX="200.0" layoutY="125.0" />
+                        <TextField layoutX="11.0" layoutY="210.0" prefWidth="250.0" />
+                        <TextField layoutX="404.0" layoutY="125.0" prefHeight="26.0" prefWidth="202.0" />
+                        <TextField layoutX="320.0" layoutY="210.0" prefHeight="26.0" prefWidth="286.0" />
+                        <Label layoutX="11.0" layoutY="10.0" text="PURACHASE ID">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="350.0" layoutY="10.0" text="AMOUNT">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="400.0" layoutY="100.0" text="DATE">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="11.0" layoutY="100.0" text="RECURRING">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="200.0" layoutY="100.0" text="INCOMING">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="11.0" layoutY="180.0" text="ACCOUNT ID">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="320.0" layoutY="180.0" text="VENDOR ID">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="502.0" layoutY="275.0" mnemonicParsing="false" onAction="#cancelSubmission" prefWidth="100.0" text="CANCEL" />
+                        <Button layoutX="388.0" layoutY="275.0" mnemonicParsing="false" onAction="#submitReceipt" prefWidth="100.0" text="SUBMIT" />
+                     </children>
+                  </AnchorPane>
+               </items>
+            </SplitPane>
+            <Button layoutX="575.0" layoutY="18.0" mnemonicParsing="false" onAction="#logOutUser" prefWidth="100.0" text="LOG OUT" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cse412financialmanagementsystem.WindowController">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cse412financialmanagementsystem.StartSceneController">
    <Pane prefHeight="500.0" prefWidth="700.0">
       <children>
       
@@ -22,7 +22,7 @@
            <items>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                   <children>
-                     <Button layoutX="231.0" layoutY="214.0" mnemonicParsing="false" text="LOG IN" />
+                     <Button layoutX="231.0" layoutY="214.0" mnemonicParsing="false" onAction="#checkExistingUser" text="LOG IN" />
                      <TextField layoutX="24.0" layoutY="84.0" prefHeight="26.0" prefWidth="263.0" />
                      <TextField layoutX="24.0" layoutY="162.0" prefHeight="26.0" prefWidth="263.0" />
                      <Label layoutX="24.0" layoutY="20.0" text="CURRENT USER">
@@ -49,7 +49,7 @@
                            <Font name="System Bold" size="18.0" />
                         </font>
                      </Label>
-                     <Button layoutX="225.0" layoutY="332.0" mnemonicParsing="false" text="SIGN UP" />
+                     <Button layoutX="221.0" layoutY="350.0" mnemonicParsing="false" onAction="#accountCreation" text="SIGN UP" />
                      <Label layoutX="24.0" layoutY="53.0" text="FULL NAME">
                         <font>
                            <Font size="18.0" />
@@ -70,6 +70,12 @@
                      </Label>
                      <TextField layoutX="24.0" layoutY="281.0" prefHeight="26.0" prefWidth="263.0" />
                      <Label layoutX="24.0" layoutY="255.0" text="CONFIRM PASSWORD">
+                        <font>
+                           <Font size="18.0" />
+                        </font>
+                     </Label>
+                     <TextField layoutX="24.0" layoutY="350.0" prefHeight="26.0" prefWidth="178.0" />
+                     <Label layoutX="24.0" layoutY="325.0" text="ZIP CODE">
                         <font>
                            <Font size="18.0" />
                         </font>
