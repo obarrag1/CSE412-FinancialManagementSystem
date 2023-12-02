@@ -6,6 +6,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 <AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cse412financialmanagementsystem.MainSceneController">
    <children>
       <Label layoutX="26.0" layoutY="17.0" text="CSE412 Group 2 - Financial Management System">
@@ -58,5 +60,18 @@
       </Label>
       <Button layoutX="575.0" layoutY="18.0" mnemonicParsing="false" onAction="#logOutUser" prefWidth="100.0" text="LOG OUT" />
       <Button layoutX="207.0" layoutY="60.0" mnemonicParsing="false" onAction="#switchToAccountInfo" prefWidth="100.0" text="ACCOUNT" />
+      <TableView fx:id="receiptTable" layoutX="27.0" layoutY="130.0" prefHeight="300.0" prefWidth="640.0">
+
+         <columns>
+            <TableColumn fx:id="purIdColumn" text="ID NUM" prefWidth="75.0" />
+            <TableColumn fx:id="incomingColumn" text="INCOMING" prefWidth="100.0" />
+            <TableColumn fx:id="amountColumn" text="AMOUNT" prefWidth="75.0" />
+            <TableColumn fx:id="dateColumn" text="DATE" prefWidth="150.0" />
+            <TableColumn fx:id="subscrColumn" text="RECURRING" prefWidth="100.0" />
+            <TableColumn fx:id="vendorIdColumn" text="VENDOR" prefWidth="75.0" />
+
+         </columns>
+      </TableView>
+
    </children>
 </AnchorPane>
