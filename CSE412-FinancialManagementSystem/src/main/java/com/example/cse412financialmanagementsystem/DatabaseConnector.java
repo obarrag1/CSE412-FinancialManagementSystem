@@ -11,9 +11,9 @@ import java.util.Date;
 import java.util.List;
 public class DatabaseConnector {
 
-    private static final String URL = "jdbc:postgresql://localhost:8888/your_database_name";
-    private static final String USERNAME = "your_username";
-    private static final String PASSWORD = "your_password";
+    //private static final String URL = "jdbc:postgresql://localhost:8888/your_database_name";
+    //private static final String USERNAME = "your_username";
+    //private static final String PASSWORD = "your_password";
 
     public static Connection connect() {
         try {
