@@ -1,19 +1,68 @@
 package com.example.cse412financialmanagementsystem;
 
+import javafx.beans.property.*;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MainSceneController {
 
     private Stage stage;
     private Scene scene;
     private Parent root;
+    @FXML
+    private TableColumn<Receipt, Integer> purIdColumn;
+    @FXML
+    private TableColumn<Receipt, Boolean> incomingColumn;
+
+    @FXML
+    private TableColumn<Receipt, Double> amountColumn;
+
+    @FXML
+    private TableColumn<Receipt, String> dateColumn;
+
+    @FXML
+    private TableColumn<Receipt, Boolean> subscrColumn;
+
+    //@FXML
+ //   private TableColumn<Receipt, Integer> accountIdColumn;
+
+    @FXML
+    private TableColumn<Receipt, Integer> vendorIdColumn;
+
+    @FXML
+    private TableView<Receipt> receiptTable;
+
+    @FXML
+    private void initialize() throws IOException {
+        purIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getPurId()).asObject());
+        incomingColumn.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isIncoming()));
+        amountColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getAmount()).asObject());
+        dateColumn.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getDate()));
+        subscrColumn.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isRecurring()));
+      //  accountIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getAccountId()).asObject());
+        vendorIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getVendorId()).asObject());
+
+
+        // Call the DatabaseConnector to get the list of receipts
+        List<Receipt> receipts = DatabaseConnector.getReceipts();
+
+
+        receiptTable.getItems().addAll(receipts);
+    }
+
 
     //Access the user's account information
     public void switchToAccountInfo(ActionEvent event) throws IOException {
