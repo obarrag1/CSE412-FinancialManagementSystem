@@ -1,0 +1,37 @@
+./* styles.css */
+
+    /* Overall Body Styling */
+.vbox {
+    -fx-background-color: #f2f2f2; /* Light background color */
+}
+
+.pane {
+    -fx-background-color: #333333; /* Dark background color */
+}
+
+/* Label Styling */
+.label-title {
+    -fx-text-fill: #ffffff; /* White text color for title labels */
+}
+
+/* Button Styling */
+.button {
+    -fx-background-color: #4CAF50; /* Green background color for buttons */
+    -fx-text-fill: #ffffff; /* White text color for buttons */
+}
+
+/* Text Field Styling */
+.text-field,
+.password-field {
+    -fx-background-color: #ffffff; /* White background color for text fields */
+}
+
+/* SplitPane Styling */
+.split-pane {
+    -fx-background-color: #e0e0e0; /* Light background color for split pane */
+}
+
+/* AnchorPane Styling */
+.anchor-pane {
+    -fx-background-color: #555555; /* Dark background color for anchor pane */
+}

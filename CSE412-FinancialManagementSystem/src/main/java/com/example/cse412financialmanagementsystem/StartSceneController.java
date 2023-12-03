@@ -79,7 +79,7 @@ public class StartSceneController {
                 status = "Success!";
                 balance = User.getBalance();
             } else if (User.getAccount_ID().equals(user_id) && !User.getPassword().equals(user_password)) {
-                status = "Valid username but incorrect password!";
+                status = "Incorrect password!";
             }
         }
 
