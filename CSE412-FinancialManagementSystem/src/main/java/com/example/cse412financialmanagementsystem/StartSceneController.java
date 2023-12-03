@@ -14,10 +14,7 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +30,7 @@ public class StartSceneController {
     private static Long user_id;
     private static String user_password;
 
+    //GUI components for user login
     @FXML
     private TextField existing_textID;
     @FXML
@@ -40,19 +38,33 @@ public class StartSceneController {
     @FXML
     private Label errorMessage;
 
+    //GUI components for new user
+    @FXML
+    private TextField name_text;
+    @FXML
+    private TextField newUser_id;
+    @FXML
+    private PasswordField password_1;
+    @FXML
+    private PasswordField password_2;
+    @FXML
+    private TextField zipcode;
+
     //Validate the user's credentials with the information in the database
     public void checkExistingUser(ActionEvent event) throws IOException {
 
         //The status of the user login (default)
         String status = "The account does not exist!";
 
+        //Check that the ID is in the correct format
         try {
             //Save the user's credentials to keep track during entire runtime
             user_id = Long.parseLong(existing_textID.getText());
         } catch (NumberFormatException nfe){ user_id = (long) -1;}
 
-        if(user_id == (-1)){status = "Account ID is incorrect!";}
+        if(user_id.equals(-1)){status = "ID format is incorrect! (10 digits only) ";}
 
+        //Get the password from the text box
         user_password = existing_textPassword.getText();
 
         //Gather the existing users
@@ -61,11 +73,10 @@ public class StartSceneController {
         //Check every account for matching credentials
         for(Account User : checkUsers){
 
-            System.err.println(User.getAccount_ID());
             //Update the status message if conditions are satisfied
             if(User.getAccount_ID().equals(user_id) && User.getPassword().equals(user_password)){
                 status = "Success!";
-            } else if (User.getAccount_ID().equals(user_id) && User.getPassword().equals(user_password)) {
+            } else if (User.getAccount_ID().equals(user_id) && !User.getPassword().equals(user_password)) {
                 status = "Valid username but incorrect password!";
             }
         }
@@ -75,18 +86,71 @@ public class StartSceneController {
             //Upon successful login, switch to the main scene
             switchToMainScene(event);
         }
+        //Print why the user could  not log in
         else{ errorMessage.setText(status);};
     }
 
     //Check that the user's input is valid before creating their account
     public void accountCreation(ActionEvent event) throws IOException {
 
+        String status = "Success!";
+
         //Enter the user's credentials into the database
+        String user_name = name_text.getText();
+        //------------------------USER ID-------------------------------------
+        try {
+            //Save the user's credentials to keep track during entire runtime
+            user_id = Long.parseLong(newUser_id.getText());
+        } catch (NumberFormatException nfe) {
+            user_id = (long) -1;
+        }
+
+        //Gather the existing users
+        List<Account> checkMatchingID = getAccounts();
+
+        //Check every account for matching credentials
+        for(Account User : checkMatchingID){
+
+            //Update the status message if there is a matching ID
+            if(User.getAccount_ID().equals(user_id)){
+                status = "There is an existing user with that ID!";}
+        }
+
+        if (user_id.equals(-1)) { status = "That ID number is invalid! (10 digits only)"; }
+
+        //--------------------------PASSWORD----------------------------------
+        String password = password_1.getText();
+
+        //Check that the passwords are matching
+        if (!password.equals(password_2.getText())) {
+            status = "The passwords do not match!";
+        } else {
+            user_password = password;
+        }
+
+        //---------------------ZIP--------------------------------------------
+        int zip = Integer.parseInt(zipcode.getText());
 
         //Save the current user's information
 
-        //Upon successful account creation, switch to the main scene
-        switchToMainScene(event);
+        //-------------------------------------------------------------------
+        if (status.equals("Success!")) {
+
+            try (Connection connection = connect()) {
+                if (connection == null) {
+                    System.err.println("Connection is null. Check your database connection.");
+                }
+                String sql = "INSERT INTO account (account_id, balance, name, zip, password) VALUES ('" + user_id + "', '" + 0 + "', '" + user_name + "', '" + zip + "', '" + user_password +"')";
+                Statement statement = connection.createStatement();
+                statement.executeUpdate(sql);
+
+                //Upon successful account creation, switch to the main scene
+                switchToMainScene(event);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else{ errorMessage.setText(status); }
     }
 
     //Switch to the main scene where user can perform actions or select to view account info
