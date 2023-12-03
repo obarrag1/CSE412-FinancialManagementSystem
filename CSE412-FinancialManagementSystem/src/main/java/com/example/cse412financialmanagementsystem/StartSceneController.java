@@ -29,6 +29,7 @@ public class StartSceneController {
 
     public static Long user_id;
     public static String user_password;
+    public static Double balance;
 
     //GUI components for user login
     @FXML
@@ -76,6 +77,7 @@ public class StartSceneController {
             //Update the status message if conditions are satisfied
             if(User.getAccount_ID().equals(user_id) && User.getPassword().equals(user_password)){
                 status = "Success!";
+                balance = User.getBalance();
             } else if (User.getAccount_ID().equals(user_id) && !User.getPassword().equals(user_password)) {
                 status = "Valid username but incorrect password!";
             }
@@ -136,11 +138,13 @@ public class StartSceneController {
         //-------------------------------------------------------------------
         if (status.equals("Success!")) {
 
+            //Initialize the user's balance
+            balance = 0.0;
             try (Connection connection = connect()) {
                 if (connection == null) {
                     System.err.println("Connection is null. Check your database connection.");
                 }
-                String sql = "INSERT INTO account (account_id, balance, name, zip, password) VALUES ('" + user_id + "', '" + 0 + "', '" + user_name + "', '" + zip + "', '" + user_password +"')";
+                String sql = "INSERT INTO account (account_id, balance, name, zip, password) VALUES ('" + user_id + "', '" + 0.0 + "', '" + user_name + "', '" + zip + "', '" + user_password +"')";
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(sql);
 

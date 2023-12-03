@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.cse412financialmanagementsystem.StartSceneController.user_id;
+import static com.example.cse412financialmanagementsystem.StartSceneController.user_password;
 
 public class MainSceneController {
 
@@ -78,7 +79,6 @@ public class MainSceneController {
         }
     }
 
-
     //Access the user's account information
     public void switchToAccountInfo(ActionEvent event) throws IOException {
 
@@ -125,6 +125,8 @@ public class MainSceneController {
     public void logOutUser(ActionEvent event) throws IOException {
 
         //Remove the user's current information
+        user_id = null;
+        user_password = null;
 
         //Change the scene
         root = FXMLLoader.load(getClass().getResource("StartScene.fxml"));
