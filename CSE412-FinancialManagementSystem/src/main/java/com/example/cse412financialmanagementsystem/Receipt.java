@@ -2,15 +2,15 @@ package com.example.cse412financialmanagementsystem;
 import java.util.Date;
 
 public class Receipt {
-    private int purId;
+    private Long purId;
     private boolean incoming;
     private double amount;
     private Date date;
     private boolean recurring;
-    private int accountId;
-    private int vendorId;
+    private Long accountId;
+    private Long vendorId;
 
-    public Receipt(int purId, boolean incoming, double amount, Date date, boolean recurring, int vendorId) {
+    public Receipt(Long purId, boolean incoming, double amount, Date date, boolean recurring, Long accountId, Long vendorId) {
         this.purId = purId;
         this.incoming = incoming;
         this.amount = amount;
@@ -22,11 +22,11 @@ public class Receipt {
 
     // Getters and setters
 
-    public int getPurId() {
+    public Long getPurId() {
         return purId;
     }
 
-    public void setPurId(int purId) {
+    public void setPurId(Long purId) {
         this.purId = purId;
     }
 
@@ -62,19 +62,19 @@ public class Receipt {
         this.recurring = recurring;
     }
 
-    public int getAccountId() {
+    public Long getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
+    public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
 
-    public int getVendorId() {
+    public Long getVendorId() {
         return vendorId;
     }
 
-    public void setVendorId(int vendorId) {
+    public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
     }
 }

@@ -15,6 +15,7 @@ public class DatabaseConnector {
     //private static final String USERNAME = "your_username";
     //private static final String PASSWORD = "your_password";
 
+    
     public static Connection connect() {
         try {
             return DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -53,14 +54,14 @@ public class DatabaseConnector {
     }
 
     private static Receipt extractReceiptFromResultSet(ResultSet resultSet) throws SQLException {
-        int purId = resultSet.getInt("pur_id");
+        Long purId = resultSet.getLong("pur_id");
         boolean incoming = resultSet.getBoolean("incoming");
         double amount = resultSet.getDouble("amount");
         Date date = resultSet.getDate("date");
         boolean subscr = resultSet.getBoolean("subscr");
-        int accountId = resultSet.getInt("account_id");
-        int vendorId = resultSet.getInt("vendor_id");
+        Long accountId = resultSet.getLong("account_id");
+        Long vendorId = resultSet.getLong("vendor_id");
 
-        return new Receipt(purId, incoming, amount, date, subscr, vendorId);
+        return new Receipt(purId, incoming, amount, date, subscr, accountId, vendorId);
     }
 }

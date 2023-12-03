@@ -27,8 +27,8 @@ public class StartSceneController {
     private Scene scene;
     private Parent root;
 
-    private static Long user_id;
-    private static String user_password;
+    public static Long user_id;
+    public static String user_password;
 
     //GUI components for user login
     @FXML

@@ -15,7 +15,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.cse412financialmanagementsystem.StartSceneController.user_id;
 
 public class MainSceneController {
 
@@ -23,7 +26,7 @@ public class MainSceneController {
     private Scene scene;
     private Parent root;
     @FXML
-    private TableColumn<Receipt, Integer> purIdColumn;
+    private TableColumn<Receipt, Long> purIdColumn;
     @FXML
     private TableColumn<Receipt, Boolean> incomingColumn;
 
@@ -36,31 +39,43 @@ public class MainSceneController {
     @FXML
     private TableColumn<Receipt, Boolean> subscrColumn;
 
-    //@FXML
- //   private TableColumn<Receipt, Integer> accountIdColumn;
+    @FXML
+    private TableColumn<Receipt, Long> accountIdColumn;
 
     @FXML
-    private TableColumn<Receipt, Integer> vendorIdColumn;
+    private TableColumn<Receipt, Long> vendorIdColumn;
 
     @FXML
     private TableView<Receipt> receiptTable;
 
     @FXML
     private void initialize() throws IOException {
-        purIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getPurId()).asObject());
+        purIdColumn.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().getPurId()).asObject());
         incomingColumn.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isIncoming()));
         amountColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getAmount()).asObject());
         dateColumn.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getDate()));
         subscrColumn.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isRecurring()));
-      //  accountIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getAccountId()).asObject());
-        vendorIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getVendorId()).asObject());
-
+        accountIdColumn.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().getAccountId()).asObject());
+        vendorIdColumn.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().getVendorId()).asObject());
 
         // Call the DatabaseConnector to get the list of receipts
         List<Receipt> receipts = DatabaseConnector.getReceipts();
+        List<Receipt> user_receipts = new ArrayList<Receipt>();
 
+        if(receipts.size() != 0){
+            for (Receipt purchase : receipts) {
 
-        receiptTable.getItems().addAll(receipts);
+                //Look for matching receipts according to the account id
+                if (purchase.getAccountId().equals(user_id)) {
+                    user_receipts.add(purchase);
+                }
+            }
+
+            if(user_receipts != null) {
+                //Only print if there are existing receipts
+                receiptTable.getItems().addAll(user_receipts);
+            }
+        }
     }
 
 
@@ -99,7 +114,7 @@ public class MainSceneController {
         stage.show();
     }
 
-    //Remove the selected receipt from the list
+    //Remove the selected receipt from the lists
     public void deleteReceipt(ActionEvent event){
 
         //Delete the receipt from the database
