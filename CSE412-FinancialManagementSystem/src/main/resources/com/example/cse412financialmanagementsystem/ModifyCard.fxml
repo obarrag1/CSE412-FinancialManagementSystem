@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cse412financialmanagementsystem.ModifyCardController" stylesheets="@styles.css">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cse412financialmanagementsystem.ModifyCardController">
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -27,11 +27,15 @@
                      <items>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <TextField layoutX="27.0" layoutY="78.0" prefHeight="26.0" prefWidth="255.0" />
-                              <TextField layoutX="27.0" layoutY="163.0" />
-                              <TextField layoutX="366.0" layoutY="78.0" prefHeight="26.0" prefWidth="255.0" />
-                              <TextField layoutX="216.0" layoutY="163.0" />
-                              <TextField layoutX="420.0" layoutY="163.0" prefHeight="26.0" prefWidth="202.0" />
+                              <Label fx:id="error_label" layoutX="340.0" layoutY="318.0">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="number_text" layoutX="27.0" layoutY="78.0" prefHeight="26.0" prefWidth="255.0" />
+                              <TextField fx:id="exp_text" layoutX="27.0" layoutY="163.0" />
+                              <TextField fx:id="id_text" layoutX="366.0" layoutY="78.0" prefHeight="26.0" prefWidth="255.0" />
+                              <TextField fx:id="cvv_text" layoutX="202.0" layoutY="163.0" />
                               <Label layoutX="27.0" layoutY="48.0" text="CARD NUMBER">
                                  <font>
                                     <Font size="18.0" />
@@ -42,23 +46,18 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="416.0" layoutY="138.0" text="TYPE">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
                               <Label layoutX="27.0" layoutY="138.0" text="EXPIRATION">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="216.0" layoutY="138.0" text="CVV">
+                              <Label layoutX="202.0" layoutY="138.0" text="CVV">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="514.0" layoutY="222.0" mnemonicParsing="false" onAction="#cancelSubmission" prefWidth="100.0" text="CANCEL" />
-                              <Button layoutX="394.0" layoutY="222.0" mnemonicParsing="false" onAction="#submitPaymentCard" prefWidth="100.0" text="SUBMIT" />
+                              <Button layoutX="514.0" layoutY="163.0" mnemonicParsing="false" onAction="#cancelSubmission" prefWidth="100.0" text="CANCEL" />
+                              <Button layoutX="394.0" layoutY="163.0" mnemonicParsing="false" onAction="#submitPaymentCard" prefWidth="100.0" text="SUBMIT" />
                            </children>
                         </AnchorPane>
                      </items>
