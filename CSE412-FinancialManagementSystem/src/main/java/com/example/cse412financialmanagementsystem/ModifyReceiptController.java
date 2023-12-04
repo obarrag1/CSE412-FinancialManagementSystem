@@ -41,6 +41,8 @@ public class ModifyReceiptController {
     @FXML
     private TextField vendorIdTextField;
 
+    private boolean isEditMode = false;
+
     //User does not want to add or edit anymore so return them to previous scene
     public void cancelSubmission(ActionEvent event) throws IOException {
 
@@ -149,6 +151,46 @@ public class ModifyReceiptController {
             return;
         }
 
+        if(!isEditMode) {
+            addNewReceipt(purchaseId, incoming, amount, date, recurring, accountId, vendorId);
+        }
+        else{
+            editExistingReceipt(purchaseId, incoming, amount, date, recurring, accountId, vendorId);
+        }
+        //Return the user to the main scene
+        root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    //Return the user to the log in screen and remove the saved credentials
+    public void logOutUser(ActionEvent event) throws IOException {
+
+        //Remove the current user's information
+
+        //Return to the log in scene
+        root = FXMLLoader.load(getClass().getResource("StartScene.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void populateFields(Receipt receipt) {
+        purchaseIdTextField.setText(String.valueOf(receipt.getPurId()));
+        amountTextField.setText(String.valueOf(receipt.getAmount()));
+        recurringTextField.setText(String.valueOf(receipt.isRecurring()));
+        incomingTextField.setText(String.valueOf(receipt.isIncoming()));
+        dateTextField.setText(String.valueOf(receipt.getDate()));
+        accountIdTextField.setText(String.valueOf(receipt.getAccountId()));
+        vendorIdTextField.setText(String.valueOf(receipt.getVendorId()));
+        isEditMode = true;
+    }
+
+    public void addNewReceipt(long purchaseId, boolean incoming, double amount, Date date, boolean recurring, long accountId, long vendorId){
         //Check for existing purchasing id before adding
         if(DatabaseConnector.isPurchaseIdExists(purchaseId)){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -179,27 +221,15 @@ public class ModifyReceiptController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Receipt successfully added");
         alert.show();
-
-        //Return the user to the main scene
-        root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
     }
 
-    //Return the user to the log in screen and remove the saved credentials
-    public void logOutUser(ActionEvent event) throws IOException {
-
-        //Remove the current user's information
-
-        //Return to the log in scene
-        root = FXMLLoader.load(getClass().getResource("StartScene.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+    public void editExistingReceipt(long purchaseId, boolean incoming, double amount, Date date, boolean recurring, long accountId, long vendorId){
+        Receipt receipt = new Receipt(purchaseId, incoming, amount, date, recurring, accountId, vendorId);
+        DatabaseConnector.editReceipt(receipt);
+        // Alert of success
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("Receipt successfully edited");
+        alert.show();
     }
-
 }
+

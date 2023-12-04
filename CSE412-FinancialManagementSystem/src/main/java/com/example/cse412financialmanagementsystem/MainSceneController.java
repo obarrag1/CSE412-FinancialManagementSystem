@@ -107,9 +107,18 @@ public class MainSceneController {
     public void editReceipt(ActionEvent event) throws IOException {
 
         //Save the information of the selected receipt so it is carried over to the next scene
+        Receipt selectedReceipt = receiptTable.getSelectionModel().getSelectedItem();
 
-        //Change the scene
-        root = FXMLLoader.load(getClass().getResource("ModifyReceipt.fxml"));
+        // Change the scene and populate fields in the new scene
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyReceipt.fxml"));
+        Parent root = loader.load();
+
+        // Access the controller of the next scene
+        ModifyReceiptController modifyReceiptController = loader.getController();
+
+        // Populate fields with the selected receipt information
+        modifyReceiptController.populateFields(selectedReceipt);
+
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
