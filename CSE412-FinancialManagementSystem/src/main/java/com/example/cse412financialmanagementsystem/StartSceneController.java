@@ -84,7 +84,7 @@ public class StartSceneController {
         }
 
         //The user has logged in successfully then switch the scene
-        if(status == "Success!"){
+        if(status.equals("Success!")){
             //Upon successful login, switch to the main scene
             switchToMainScene(event);
         }
