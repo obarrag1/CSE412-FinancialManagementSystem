@@ -1,17 +1,13 @@
 package com.example.cse412financialmanagementsystem;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 public class DatabaseConnector {
 
-    private static final String URL = "jdbc:postgresql://localhost:8888/your_database_name";
+    private static final String URL = "jdbc:postgresql://localhost:8888/FinancialManagement";
     private static final String USERNAME = "your_username";
     private static final String PASSWORD = "your_password";
 
@@ -86,4 +82,104 @@ public class DatabaseConnector {
             System.err.println("Error executing SQL query: " + e);
         }
     }
+
+    // add a new receipt to the database
+    public static void addReceipt(Receipt receipt) {
+        try (Connection connection = connect()) {
+            if (connection == null) {
+                System.err.println("Connection is null. Check your database connection.");
+                return;
+            }
+
+            // Insert receipt into the database
+            String sql = "INSERT INTO receipt (pur_id, incoming, amount, date, subscr, account_id, vendor_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setLong(1, receipt.getPurId());
+                statement.setBoolean(2, receipt.isIncoming());
+                statement.setDouble(3, receipt.getAmount());
+                statement.setDate(4, new java.sql.Date(receipt.getDate().getTime()));
+                statement.setBoolean(5, receipt.isRecurring());
+                statement.setLong(6, receipt.getAccountId());
+                statement.setLong(7, receipt.getVendorId());
+
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.err.println("Error executing SQL query: " + e);
+        }
+    }
+
+    //Check if purchase ID is already in the DB
+    public static boolean isPurchaseIdExists(long purchaseId) {
+        try (Connection connection = connect()) {
+            if (connection == null) {
+                System.err.println("Connection is null. Check your database connection.");
+                return false;
+            }
+
+            String sql = "SELECT COUNT(*) FROM receipt WHERE pur_id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setLong(1, purchaseId);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    resultSet.next();
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error executing SQL query: " + e);
+            return false;
+        }
+    }
+
+    // Check if accountID exists or not
+    public static boolean isAccountIdExists(long accountId) {
+        try (Connection connection = connect()) {
+            if (connection == null) {
+                System.err.println("Connection is null. Check your database connection.");
+                return false;
+            }
+
+            String sql = "SELECT COUNT(*) FROM account WHERE account_id = ?";
+
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setLong(1, accountId);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        int count = resultSet.getInt(1);
+                        return true;
+                    } else {
+                        // Handle the case where there is no result (optional, depending on your logic)
+                        return false;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error executing SQL query: " + e);
+            return false;
+        }
+    }
+
+    // Check if Vendor ID exists or not
+    public static boolean isVendorIdExists(long vendorId) {
+        try (Connection connection = connect()) {
+            if (connection == null) {
+                System.err.println("Connection is null. Check your database connection.");
+                return false;
+            }
+
+            String sql = "SELECT COUNT(*) FROM vendor WHERE vendor_id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setLong(1, vendorId);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    resultSet.next();
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error executing SQL query: " + e);
+            return false;
+        }
+    }
 }
+
+
