@@ -84,9 +84,9 @@ public class DatabaseConnector {
     }
 
     // add a new receipt to the database
-    public static void addReceipt(Receipt receipt) {
+     public static void addReceipt(Receipt receipt) {
         try (Connection connection = connect()) {
-            if (connection == null) {
+           if (connection == null) {
                 System.err.println("Connection is null. Check your database connection.");
                 return;
             }
@@ -108,6 +108,31 @@ public class DatabaseConnector {
             System.err.println("Error executing SQL query: " + e);
         }
     }
+    // edit an existing receipt to the database
+    public static void editReceipt(Receipt receipt) {
+        try (Connection connection = connect()) {
+            if (connection == null) {
+                System.err.println("Connection is null. Check your database connection.");
+                return;
+            }
+            // Update receipt in the database
+            String sql = "UPDATE receipt SET incoming = ?, amount = ?, date = ?, subscr = ?, account_id = ?, vendor_id = ? WHERE pur_id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setBoolean(1, receipt.isIncoming());
+                statement.setDouble(2, receipt.getAmount());
+                statement.setDate(3, new java.sql.Date(receipt.getDate().getTime()));
+                statement.setBoolean(4, receipt.isRecurring());
+                statement.setLong(5, receipt.getAccountId());
+                statement.setLong(6, receipt.getVendorId());
+                statement.setLong(7, receipt.getPurId());
+
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.err.println("Error executing SQL query: " + e);
+        }
+    }
+
 
     //Check if purchase ID is already in the DB
     public static boolean isPurchaseIdExists(long purchaseId) {

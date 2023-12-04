@@ -2,15 +2,15 @@ package com.example.cse412financialmanagementsystem;
 import java.util.Date;
 
 public class Receipt {
-    private Long purId;
+    private long purId;
     private boolean incoming;
     private double amount;
     private Date date;
     private boolean recurring;
-    private Long accountId;
-    private Long vendorId;
+    private long accountId;
+    private long vendorId;
 
-    public Receipt(Long purId, boolean incoming, double amount, Date date, boolean recurring, Long accountId, Long vendorId) {
+    public Receipt(long purId, boolean incoming, double amount, Date date, boolean recurring, long accountId, long vendorId) {
         this.purId = purId;
         this.incoming = incoming;
         this.amount = amount;
