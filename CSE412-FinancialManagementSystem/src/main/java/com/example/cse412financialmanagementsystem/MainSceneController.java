@@ -15,6 +15,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +65,7 @@ public class MainSceneController {
         List<Receipt> receipts = DatabaseConnector.getReceipts();
         List<Receipt> user_receipts = new ArrayList<Receipt>();
 
-        if(receipts.size() != 0){
+        if(receipts.size() != 0) {
             for (Receipt purchase : receipts) {
 
                 //Look for matching receipts according to the account id
@@ -72,7 +74,7 @@ public class MainSceneController {
                 }
             }
 
-            if(user_receipts != null) {
+            if (user_receipts != null) {
                 //Only print if there are existing receipts
                 receiptTable.getItems().addAll(user_receipts);
             }
@@ -115,10 +117,15 @@ public class MainSceneController {
     }
 
     //Remove the selected receipt from the lists
-    public void deleteReceipt(ActionEvent event){
-
+    public void deleteReceipt(ActionEvent event) throws SQLException {
         //Delete the receipt from the database
-
+        Receipt selectedReceipt = receiptTable.getSelectionModel().getSelectedItem(); // gets the selected receipt from the table
+        if(selectedReceipt != null) {
+            DatabaseConnector.deleteReceipt(selectedReceipt); //Removing from database
+            receiptTable.getItems().remove(selectedReceipt); // remove from the table view
+        }else{
+            System.out.println("Receipt is null");
+        }
     }
 
     //Return the user to the login scene and remove the saved credentials

@@ -25,13 +25,13 @@
                <items>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                      <children>
-                        <TextField layoutX="11.0" layoutY="40.0" prefHeight="26.0" prefWidth="255.0" />
-                        <TextField layoutX="11.0" layoutY="125.0" />
-                        <TextField layoutX="350.0" layoutY="40.0" prefHeight="26.0" prefWidth="255.0" />
-                        <TextField layoutX="200.0" layoutY="125.0" />
-                        <TextField layoutX="11.0" layoutY="210.0" prefWidth="250.0" />
-                        <TextField layoutX="404.0" layoutY="125.0" prefHeight="26.0" prefWidth="202.0" />
-                        <TextField layoutX="320.0" layoutY="210.0" prefHeight="26.0" prefWidth="286.0" />
+                        <TextField fx:id = "purchaseIdTextField" layoutX="11.0" layoutY="40.0" prefHeight="26.0" prefWidth="255.0" />
+                        <TextField fx:id = "recurringTextField" layoutX="11.0" layoutY="125.0" />
+                        <TextField fx:id = "amountTextField" layoutX="350.0" layoutY="40.0" prefHeight="26.0" prefWidth="255.0" />
+                        <TextField fx:id = "incomingTextField" layoutX="200.0" layoutY="125.0" />
+                        <TextField fx:id = "accountIdTextField" layoutX="11.0" layoutY="210.0" prefWidth="250.0" />
+                        <TextField fx:id = "dateTextField" layoutX="404.0" layoutY="125.0" prefHeight="26.0" prefWidth="202.0" />
+                        <TextField fx:id = "vendorIdTextField" layoutX="320.0" layoutY="210.0" prefHeight="26.0" prefWidth="286.0" />
                         <Label layoutX="11.0" layoutY="10.0" text="PURACHASE ID">
                            <font>
                               <Font size="18.0" />
