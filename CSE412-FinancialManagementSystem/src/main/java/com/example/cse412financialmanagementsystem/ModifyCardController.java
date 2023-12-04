@@ -17,8 +17,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import static com.example.cse412financialmanagementsystem.AccountInformationController.deleteCard;
 import static com.example.cse412financialmanagementsystem.DatabaseConnector.connect;
 import static com.example.cse412financialmanagementsystem.StartSceneController.user_id;
+import static com.example.cse412financialmanagementsystem.StartSceneController.user_password;
 
 public class ModifyCardController {
 
@@ -37,6 +39,9 @@ public class ModifyCardController {
     @FXML
     private Label error_label;
 
+    private boolean isEditMode = false;
+    Card tmpCard;
+
     //User does not want to add or edit anymore so return them to previous scene
     public void cancelSubmission(ActionEvent event) throws IOException {
 
@@ -48,9 +53,23 @@ public class ModifyCardController {
 
     }
 
-    public void submitPaymentCard(ActionEvent event) throws IOException {
+    public void populateFields(Card selectedCard) {
+        number_text.setText(String.valueOf(selectedCard.getCardNumber()));
+        id_text.setText(String.valueOf(selectedCard.getCardAccount()));
+        exp_text.setText(String.valueOf(selectedCard.getCardExp()));
+        cvv_text.setText(String.valueOf(selectedCard.getCardCVV()));
+        isEditMode = true;
 
+        //Set the information for the original card (delete old, add new to avoid duplicates)
+         tmpCard = new Card(selectedCard.getCardNumber(), selectedCard.getCardExp(),
+                selectedCard.getCardCVV(), selectedCard.getCardAccount());
 
+    }
+
+    public void submitPaymentCard(ActionEvent event) throws IOException, SQLException {
+
+        if(isEditMode){
+            deleteCard(tmpCard); }
 
         //Check that every field has text
         if(!number_text.getText().isEmpty() && !id_text.getText().isEmpty()
@@ -94,6 +113,8 @@ public class ModifyCardController {
     public void logOutUser(ActionEvent event) throws IOException {
 
         //Remove the current user's information
+        user_id = null;
+        user_password = null;
 
         //Return the user to the sign in scene
         root = FXMLLoader.load(getClass().getResource("StartScene.fxml"));
@@ -102,4 +123,5 @@ public class ModifyCardController {
         stage.setScene(scene);
         stage.show();
     }
+
 }

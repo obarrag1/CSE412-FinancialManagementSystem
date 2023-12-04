@@ -55,21 +55,21 @@ public class AccountInformationController {
         card_cvv.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCardCVV()).asObject());
         card_account.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().getCardAccount()).asObject());
 
-        // Call the DatabaseConnector to get the list of receipts
+        // Call the DatabaseConnector to get the list of cards
         List<Card> cards = getCards();
         List<Card> user_cards = new ArrayList<Card>();
 
         if(cards.size() != 0){
             for (Card purchase : cards) {
 
-                //Look for matching receipts according to the account id
+                //Look for matching cards according to the account id
                 if (purchase.getCardAccount().equals(user_id)) {
                     user_cards.add(purchase);
                 }
             }
 
             if(user_cards != null) {
-                //Only print if there are existing receipts
+                //Only print if there are existing cards
                 cardTable.getItems().addAll(user_cards);
             }
         }
@@ -101,9 +101,19 @@ public class AccountInformationController {
     public void editPaymentCard(ActionEvent event) throws IOException {
 
         //Save the current card's information so that it carries over to the next scene
+        Card selectedCard = cardTable.getSelectionModel().getSelectedItem();
+
+        // Change the scene and populate fields in the new scene
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyCard.fxml"));
+        Parent root = loader.load();
+
+        // Access the controller of the next scene
+        ModifyCardController modifyCardController = loader.getController();
+
+        // Populate fields with the selected card information
+        modifyCardController.populateFields(selectedCard);
 
         //Change the scene
-        root = FXMLLoader.load(getClass().getResource("ModifyCard.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -111,10 +121,33 @@ public class AccountInformationController {
     }
 
     //Remove the card from the list
-    public void deletePaymentCard(ActionEvent event){
+    public void deletePaymentCard(ActionEvent event) throws SQLException {
 
         //Delete the selected payment card from the database
+        //Delete the card from the database
+        Card selectedCard = cardTable.getSelectionModel().getSelectedItem(); // gets the selected card from the table
+        if(selectedCard != null) {
+            deleteCard(selectedCard); //Removing from database
+            cardTable.getItems().remove(selectedCard); // remove from the table view
+        }else{
+            System.out.println("Card is null");
+        }
+    }
 
+    public static void deleteCard(Card card) throws SQLException {
+        try(Connection connection = connect()){
+            if (connection == null){
+                System.err.println("Connection is null. Check your database connection.");
+                return;
+            }
+            //Delete the selected card from the database
+            String cardSQL = "DELETE FROM card WHERE number LIKE " + card.getCardNumber() + "::character varying AND " + "account_id=" + card.getCardAccount();
+            try (PreparedStatement statement = connection.prepareStatement(cardSQL)){
+                    statement.executeUpdate();
+            }
+        }catch (SQLException e){
+            System.err.println("Error executing SQL query: " + e);
+        }
     }
 
     //Return the user to the login scene and remove the saved credentials
